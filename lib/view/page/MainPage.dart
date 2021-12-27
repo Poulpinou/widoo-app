@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:package_info/package_info.dart';
 import 'package:widoo_app/bloc/ActivityBloc.dart';
 import 'package:widoo_app/config/AppConfig.dart';
 import 'package:widoo_app/repository/ActivityRepository.dart';
+import 'package:widoo_app/view/component/AppInfoCard.dart';
+import 'package:widoo_app/view/component/RulesCard.dart';
 import 'package:widoo_app/view/page/ActivityHistoryPage.dart';
 import 'package:widoo_app/view/page/CurrentActivityPage.dart';
 import 'package:widoo_app/view/page/NewActivityPage.dart';
@@ -48,13 +51,65 @@ class _MainPageState extends State<MainPage> {
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
-      title: Center(
-        child: Text(
-          AppConfig.instance.title,
-          style: Theme.of(context).textTheme.headline5,
-          textAlign: TextAlign.center,
-        ),
+      centerTitle: true,
+      title: Text(
+        AppConfig.instance.title,
+        style: Theme.of(context).textTheme.headline5,
+        textAlign: TextAlign.center,
       ),
+      actions: [
+        PopupMenuButton<Function?>(
+          icon: Icon(Icons.menu),
+          onSelected: (action) => action?.call(),
+          itemBuilder: (BuildContext context) => <PopupMenuItem<Function?>>[
+            PopupMenuItem(
+              child: FutureBuilder<PackageInfo>(
+                future: PackageInfo.fromPlatform(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Text("Version ?.?.?");
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4.0),
+                    child: Text("Version " + snapshot.data!.version),
+                  );
+                },
+              ),
+              value: () => showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text("Infos sur l'application"),
+                  actions: [
+                    TextButton(
+                      child: const Text("Fermer"),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ],
+                  content: AppInfoCard(),
+                  contentPadding: EdgeInsets.all(8.0),
+                ),
+              ),
+            ),
+            PopupMenuItem(
+              child: Text("Règles"),
+              value: () => showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text("Règles de Widoo"),
+                  actions: [
+                    TextButton(
+                      child: const Text("Fermer"),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ],
+                  content: RulesCard(),
+                  contentPadding: EdgeInsets.all(8.0),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 

@@ -11,5 +11,6 @@ class ActivityCountResponse {
   const ActivityCountResponse(this.total, this.active, this.done);
 
   factory ActivityCountResponse.fromJson(Map<String, dynamic> json) =>
-      _$ActivityCountResponseFromJson(json.map((key, value) => MapEntry(key, value ?? 0)));
+      _$ActivityCountResponseFromJson(
+          json.map((key, value) => MapEntry(key, value ?? 0)));
 }

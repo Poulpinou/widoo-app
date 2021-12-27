@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:widoo_app/bloc/ActivityBloc.dart';
 import 'package:widoo_app/model/dto/response/ActivityCountResponse.dart';
 import 'package:widoo_app/repository/ActivityRepository.dart';
-import 'package:widoo_app/utils/LoggingUtils.dart';
 import 'package:widoo_app/view/component/ActivityCard.dart';
 import 'package:widoo_app/view/component/GrowAnimation.dart';
 
@@ -40,13 +39,17 @@ class CurrentActivityPage extends StatelessWidget {
 
         if (state.currentActivity != null) {
           return GrowAnimation(
-            child: ActivityCard(
-              state.currentActivity!,
-              onRepeat: (activity) => context
-                  .read<ActivityBloc>()
-                  .add(ActivityEvents.closeCurrent()),
-              onDone: (activity) =>
-                  context.read<ActivityBloc>().add(ActivityEvents.endCurrent()),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ActivityCard(
+                state.currentActivity!,
+                onRepeat: (activity) => context
+                    .read<ActivityBloc>()
+                    .add(ActivityEvents.repeatCurrent()),
+                onDone: (activity) => context
+                    .read<ActivityBloc>()
+                    .add(ActivityEvents.endCurrent()),
+              ),
             ),
           );
         } else {

@@ -31,6 +31,17 @@ class ActivityRepository {
     }
   }
 
+  Future<Activity> getSelectedActivity() async {
+    final Map<String, dynamic> responseData = await _client.get("/selected");
+
+    try {
+      return Activity.fromJson(responseData);
+    } catch (e) {
+      Log.error("Failed to create activity from response", e);
+      rethrow;
+    }
+  }
+
   Future<ActivityCountResponse> getActivityCount() async {
     final Map<String, dynamic> responseData = await _client.get("/count");
 
@@ -51,8 +62,7 @@ class ActivityRepository {
   }
 
   Future<List<Activity>> getHistory() async {
-    final List<dynamic> responseData =
-        await _client.get("/history");
+    final List<dynamic> responseData = await _client.get("/history");
 
     try {
       return responseData.map((data) => Activity.fromJson(data)).toList();
@@ -60,5 +70,13 @@ class ActivityRepository {
       Log.error("Failed to create activity from response", e);
       rethrow;
     }
+  }
+
+  Future<void> selectActivity(int activityId) async {
+    return await _client.post("/" + activityId.toString() + "/select");
+  }
+
+  Future<void> repeatActivity(int activityId) async {
+    return await _client.post("/" + activityId.toString() + "/repeat");
   }
 }
