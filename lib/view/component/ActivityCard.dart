@@ -16,73 +16,70 @@ class ActivityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Card(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ColoredBox(
-              color: Theme.of(context).colorScheme.surface,
-              child: Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/images/idea_box.png',
-                      height: 64,
-                      fit: BoxFit.contain,
+    return Card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ColoredBox(
+            color: Theme.of(context).colorScheme.surface,
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/images/idea_box.png',
+                    height: 64,
+                    fit: BoxFit.contain,
+                  ),
+                  Expanded(
+                    child: Text(
+                      activity.name,
+                      textAlign: TextAlign.left,
+                      overflow: TextOverflow.visible,
+                      style: Theme.of(context).textTheme.headline5,
                     ),
-                    Expanded(
-                      child: Text(
-                        activity.name,
-                        textAlign: TextAlign.left,
-                        overflow: TextOverflow.visible,
-                        style: Theme.of(context).textTheme.headline5,
-                      ),
-                    ),
-                    onClose != null
-                        ? IconButton(
-                            icon: Icon(Icons.close),
-                            onPressed: onClose,
-                          )
-                        : Container(),
-                  ],
-                ),
+                  ),
+                  onClose != null
+                      ? IconButton(
+                          icon: Icon(Icons.close),
+                          onPressed: onClose,
+                        )
+                      : Container(),
+                ],
               ),
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SingleChildScrollView(
-                  child: Text(activity.description),
-                ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SingleChildScrollView(
+                child: Text(activity.description),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                onDone != null
-                    ? ElevatedButton(
-                        child: Text("Terminer"),
-                        onPressed: () => onDone!(activity),
-                      )
-                    : Container(),
-                onRepeat != null
-                    ? ElevatedButton(
-                        child: Text("Répéter"),
-                        onPressed: activity.repeatable
-                            ? () => onRepeat!(activity)
-                            : null,
-                      )
-                    : Container(),
-              ],
-            )
-          ],
-        ),
-        color: Theme.of(context).colorScheme.background,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              onDone != null
+                  ? ElevatedButton(
+                      child: Text("Terminer"),
+                      onPressed: () => onDone!(activity),
+                    )
+                  : Container(),
+              onRepeat != null
+                  ? ElevatedButton(
+                      child: Text("Répéter"),
+                      onPressed: activity.repeatable
+                          ? () => onRepeat!(activity)
+                          : null,
+                    )
+                  : Container(),
+            ],
+          )
+        ],
       ),
+      color: Theme.of(context).colorScheme.background,
     );
   }
 }

@@ -97,9 +97,13 @@ class ActivityHistoryPage extends StatelessWidget {
                               context: context,
                               builder: (context) {
                                 return GrowAnimation(
-                                  child: ActivityCard(
-                                    activity,
-                                    onClose: () => Navigator.of(context).pop(),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ActivityCard(
+                                      activity,
+                                      onClose: () =>
+                                          Navigator.of(context).pop(),
+                                    ),
                                   ),
                                 );
                               }),
@@ -122,11 +126,14 @@ class ActivityHistoryPage extends StatelessWidget {
                                         activity.repeatable
                                             ? Icons.replay_outlined
                                             : Icons.check,
-                                        color: Theme.of(context).colorScheme.secondary,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
                                       ),
                                       Expanded(
                                         child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 4.0),
                                           child: Text(
                                             activity.name,
                                             style: Theme.of(context)

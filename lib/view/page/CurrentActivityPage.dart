@@ -39,13 +39,17 @@ class CurrentActivityPage extends StatelessWidget {
 
         if (state.currentActivity != null) {
           return GrowAnimation(
-            child: ActivityCard(
-              state.currentActivity!,
-              onRepeat: (activity) => context
-                  .read<ActivityBloc>()
-                  .add(ActivityEvents.repeatCurrent()),
-              onDone: (activity) =>
-                  context.read<ActivityBloc>().add(ActivityEvents.endCurrent()),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ActivityCard(
+                state.currentActivity!,
+                onRepeat: (activity) => context
+                    .read<ActivityBloc>()
+                    .add(ActivityEvents.repeatCurrent()),
+                onDone: (activity) => context
+                    .read<ActivityBloc>()
+                    .add(ActivityEvents.endCurrent()),
+              ),
             ),
           );
         } else {

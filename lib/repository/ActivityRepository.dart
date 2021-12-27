@@ -62,8 +62,7 @@ class ActivityRepository {
   }
 
   Future<List<Activity>> getHistory() async {
-    final List<dynamic> responseData =
-        await _client.get("/history");
+    final List<dynamic> responseData = await _client.get("/history");
 
     try {
       return responseData.map((data) => Activity.fromJson(data)).toList();
