@@ -74,75 +74,92 @@ class ActivityHistoryPage extends StatelessWidget {
 
             final List<Activity> history = state.history;
             if (history.isEmpty) {
-              return Center(
-                child: const Text("Pas encore d'activité terminée"),
+              return Expanded(
+                child: Center(
+                  child: const Text("Pas encore d'activité terminée"),
+                ),
               );
             } else {
               return Expanded(
-                child: ListView.builder(
-                  itemCount: history.length,
-                  itemBuilder: (context, index) {
-                    final Activity activity = history[index];
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0,
-                        vertical: 4.0,
-                      ),
-                      child: GestureDetector(
-                        onTap: () => showDialog(
-                            context: context,
-                            builder: (context) {
-                              return GrowAnimation(
-                                child: ActivityCard(
-                                  activity,
-                                  onClose: () => Navigator.of(context).pop(),
-                                ),
-                              );
-                            }),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.surface,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8.0)),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        activity.name,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: ListView.builder(
+                    itemCount: history.length,
+                    itemBuilder: (context, index) {
+                      final Activity activity = history[index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0,
+                          vertical: 4.0,
+                        ),
+                        child: GestureDetector(
+                          onTap: () => showDialog(
+                              context: context,
+                              builder: (context) {
+                                return GrowAnimation(
+                                  child: ActivityCard(
+                                    activity,
+                                    onClose: () => Navigator.of(context).pop(),
+                                  ),
+                                );
+                              }),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.surface,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0)),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Icon(
+                                        activity.repeatable
+                                            ? Icons.replay_outlined
+                                            : Icons.check,
+                                        color: Theme.of(context).colorScheme.secondary,
+                                      ),
+                                      Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                          child: Text(
+                                            activity.name,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline6,
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        DateFormat("dd/MM/yyyy")
+                                            .format(activity.endDate!),
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline6,
+                                            .bodyText1,
                                       ),
-                                    ),
-                                    Text(
-                                      DateFormat("dd/MM/yyyy")
-                                          .format(activity.endDate!),
-                                      style:
-                                          Theme.of(context).textTheme.bodyText1,
-                                    ),
-                                  ],
-                                ),
-                                Container(height: 5),
-                                Text(
-                                  activity.description,
-                                  style: Theme.of(context).textTheme.bodyText2,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
+                                    ],
+                                  ),
+                                  Container(height: 5),
+                                  Text(
+                                    activity.description,
+                                    style:
+                                        Theme.of(context).textTheme.bodyText2,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               );
             }

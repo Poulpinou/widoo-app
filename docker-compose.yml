@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   api:
-    image: widoo-back:local
+    image: dodoworkshop/widoo-back:develop
     environment:
       DB_HOST: db
       DB_NAME: widoo

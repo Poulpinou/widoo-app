@@ -88,7 +88,12 @@ abstract class ApiClient {
       Log.info("POST ${uri.path} ${body != null ? "with body: $body" : ""}");
 
     return sendRequest(
-        http.post(uri, headers: await buildHeaders(), body: json.encode(body)));
+      http.post(
+        uri,
+        headers: await buildHeaders(),
+        body: body != null ? json.encode(body) : null,
+      ),
+    );
   }
 
   Future<dynamic> put(String path, {dynamic? body}) async {
@@ -97,9 +102,11 @@ abstract class ApiClient {
       Log.info("PUT ${uri.path} ${body != null ? "with body: $body" : ""}");
 
     return sendRequest(
-      http.put(uri,
-          headers: await buildHeaders(),
-          body: body != null ? json.encode(body) : null),
+      http.put(
+        uri,
+        headers: await buildHeaders(),
+        body: body != null ? json.encode(body) : null,
+      ),
     );
   }
 
@@ -108,8 +115,13 @@ abstract class ApiClient {
     if (logRequests)
       Log.info("PATCH ${uri.path} ${body != null ? "with body: $body" : ""}");
 
-    return sendRequest(http.patch(uri,
-        headers: await buildHeaders(), body: json.encode(body)));
+    return sendRequest(
+      http.patch(
+        uri,
+        headers: await buildHeaders(),
+        body: body != null ? json.encode(body) : null,
+      ),
+    );
   }
 
   Future<dynamic> delete(String path) async {
